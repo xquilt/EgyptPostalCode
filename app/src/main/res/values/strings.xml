@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Egypt Postal Code</string>
+    <string name="address">العنوان</string>
+    <string name="postal_code">الرقم البريدي</string>
+    <string name="phone_number">رقم التليفون</string>
+    <string name="share">مشاركه</string>
+    <string name="search_office">رقم البريد او اسم المنطقة</string>
+</resources>
