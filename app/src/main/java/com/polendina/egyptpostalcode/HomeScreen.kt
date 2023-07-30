@@ -99,54 +99,10 @@ private fun OfficesList(
         items(items = offices) {office ->
             OfficeCard(
                 office = office,
+                shareOnClick = {},
                 modifier = modifier
                     .padding(all = 10.dp)
             )
-        }
-    }
-}
-
-@Composable
-private fun BottomBar() {
-    BottomAppBar {
-        Row (
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Home,
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.DateRange,
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.LocationOn,
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Star,
-                    contentDescription = null
-                )
-            }
         }
     }
 }

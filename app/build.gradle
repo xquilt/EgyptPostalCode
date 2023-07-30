@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.polendina.egyptpostalcode'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.polendina.egyptpostalcode"
         minSdk 28
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -32,7 +32,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+//        languageVersion = "1.9"
+//        apiVersion = "1.9"
     }
+
     buildFeatures {
         compose true
     }
@@ -64,4 +67,11 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // Networking
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Icons
+    implementation ("androidx.compose.material:material-icons-extended:1.6.0-alpha02")
 }

@@ -1,20 +1,30 @@
 package com.polendina.egyptpostalcode
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.MarkunreadMailbox
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.MapsHomeWork
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -36,80 +46,49 @@ import com.polendina.egyptpostalcode.ui.theme.EgyptPostalCodeTheme
 @Composable
 fun OfficeCard(
     office: Office,
+    shareOnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
-            .height(200.dp)
+            .height(150.dp)
             .width(370.dp)
     ) {
-//        Text(
-//            text = office.office
-//        )
-        // todo: This should open up Google maps apps or something
-        InfoRow(
-            category = stringResource(id = R.string.address),
-            value = office.address,
-            imageVector = Icons.Default.LocationOn
-        )
-        InfoRow(
-            category = stringResource(id = R.string.postal_code),
-            value = office.postal_code,
-            // todo: Need a suitable icon
-            imageVector = Icons.Filled.Email
-        )
-        // todo: This should open up the dialing app
-        InfoRow(
-            category = stringResource(id = R.string.phone_number),
-            value = office.tel,
-            imageVector = Icons.Filled.Call
-        )
-        // todo: The whole row could be enhanced entirely (instead of replicating the original design)
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    vertical = 20.dp,
-                    horizontal = 10.dp
-                )
+        Box (
         ) {
-            Row (
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .weight(1f)
+            IconButton(
+                onClick = { /*TODO*/ }
             ) {
-                Text(
-                    text = office.visits
-                )
-                // todo: Surely the icon isn't suitable
                 Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(start = 10.dp)
+                    imageVector = Icons.Filled.Share,
+                    contentDescription = null
                 )
             }
-            Row (
-                horizontalArrangement = Arrangement.Center,
+            InfoRow(
+                category = office.office,
+                // todo: This should open up Google maps apps or something
+                value = office.address,
+                imageVector = Icons.Outlined.MapsHomeWork,
                 modifier = Modifier
-                    .weight(1f)
-            ) {
-                IconButton(
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                    )
-                }
-                Text(
-                    text = stringResource(id = R.string.share)
-                )
-            }
+                    .fillMaxWidth()
+            )
+        }
+        Row (
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            InfoRow(
+                category = stringResource(id = R.string.postal_code),
+                value = office.postal_code,
+                imageVector = Icons.Filled.MarkunreadMailbox
+            )
+            // todo: This should open up the dialing app
+            InfoRow(
+                category = stringResource(id = R.string.phone_number),
+                value = office.tel,
+                imageVector = Icons.Filled.Call
+            )
         }
     }
 }
@@ -121,33 +100,40 @@ private fun InfoRow(
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End,
+    Column(
+        horizontalAlignment = Alignment.End,
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
-            .fillMaxWidth()
             .padding(
                 vertical = 10.dp,
                 horizontal = 20.dp
             )
     ) {
+        Row (
+            horizontalArrangement = Arrangement.End,
+            modifier = modifier
+        ) {
+            Text(
+                text = category,
+                // todo: This should be relocated to Typography file
+                style = TextStyle(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp,
+                ),
+                modifier = Modifier
+                    .padding(start = 10.dp)
+            )
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 10.dp)
+            )
+        }
         Text(
-            text = value
-        )
-        Text(
-            text = category,
-            style = TextStyle(
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 15.sp,
-            ),
+            text = value,
             modifier = Modifier
-                .padding(start = 10.dp)
-        )
-        Icon(
-            imageVector = imageVector,
-            contentDescription = null,
-            modifier = Modifier
-                .padding(start = 10.dp)
+                .padding(end = 30.dp)
         )
     }
 }
@@ -160,9 +146,12 @@ private fun OfficeCardPreview() {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            for (office in offices) {
+            offices.forEach {
                 OfficeCard(
-                    office = office,
+                    office = it,
+                    shareOnClick = {
+                        Log.d("URL", it.link)
+                    },
                     modifier = Modifier
                         .padding(10.dp)
                 )

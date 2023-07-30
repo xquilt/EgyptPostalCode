@@ -4,5 +4,12 @@
     <string name="postal_code">الرقم البريدي</string>
     <string name="phone_number">رقم التليفون</string>
     <string name="share">مشاركه</string>
+    <string name="views">مشاهدات</string>
     <string name="search_office">رقم البريد او اسم المنطقة</string>
+    <string name="atm">خدمة الصراف الالي (ATM)</string>
+    <string name="pos">خدمة نقاط البيع (POS)</string>
+    <string name="ifs">حوالات داخليه وارده (IFS)</string>
+    <string name="one_window">خدمات الشباك الشامل</string>
+    <string name="internal_ifs">حوالات داخليه وارده</string>
+    <string name="speed_mail">خدمات البريد السريع</string>
 </resources>
