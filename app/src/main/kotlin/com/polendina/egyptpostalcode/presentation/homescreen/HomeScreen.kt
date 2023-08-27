@@ -1,22 +1,14 @@
 package com.polendina.egyptpostalcode
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,37 +16,40 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.polendina.egyptpostalcode.domain.model.PostOffice
+import com.polendina.egyptpostalcode.presentation.ScreensViewModel
 import com.polendina.egyptpostalcode.ui.theme.EgyptPostalCodeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
     activeState: Boolean,
-    onActiveChange: (Boolean) -> Unit,
+    screensViewModel: ScreensViewModel = viewModel(),
     modifier: Modifier
 ) {
     Scaffold (
         topBar = {
             SearchBar(
-                query = query,
+                query = screensViewModel.query.value,
                 placeholder = {
                     Text(
                         text = stringResource(id = R.string.search_office)
                     )
                 },
-                onQueryChange = onQueryChange,
-                onSearch = onSearch,
+                onQueryChange = {
+                    screensViewModel.updateQuery(it)
+                },
+                onSearch = {
+                    screensViewModel.getOffices(it)
+                },
                 active = activeState,
-                onActiveChange = onActiveChange,
+                onActiveChange = {},
                 trailingIcon = {
                     IconButton(
                         onClick = { /*TODO*/ }
@@ -79,6 +74,7 @@ fun HomeScreen(
     ) {
         OfficesList(
             paddingValues = it,
+            offices = screensViewModel.officeList,
             modifier = modifier
         )
     }
@@ -87,7 +83,8 @@ fun HomeScreen(
 @Composable
 private fun OfficesList(
     paddingValues: PaddingValues,
-    modifier: Modifier
+    modifier: Modifier,
+    offices: List<PostOffice>,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -112,11 +109,7 @@ private fun OfficesList(
 fun PreviewHomeScreen() {
     EgyptPostalCodeTheme {
         HomeScreen(
-            query = "",
-            onQueryChange = {},
-            onSearch = {},
             activeState = true,
-            onActiveChange = {},
             modifier = Modifier
         )
     }
