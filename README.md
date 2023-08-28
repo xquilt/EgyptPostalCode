@@ -12,6 +12,7 @@ A new FOSS variant of the [Egypt Postal Code - Egypt Post](https://play.google.c
 ## Showcase
 <span>
     <img src="./media/HomePage.png" width="300" height="600"> &nbsp;
+    <img src="./media/BottomSheet.png" width="300" height="600"> &nbsp;
 </span>
 
 ## Installation

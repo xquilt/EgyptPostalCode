@@ -1,42 +1,50 @@
 package com.polendina.egyptpostalcode.data.repository
 
 import com.polendina.egyptpostalcode.domain.model.OfficeList
-import com.polendina.egyptpostalcode.domain.model.OfficeResponse
+import com.polendina.egyptpostalcode.domain.model.Office
+import com.polendina.egyptpostalcode.domain.model.PostOfficeAdditional
 import com.polendina.egyptpostalcode.domain.model.ShipmentResponse
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 class EgyptPostCodeRepository {
 
-    fun getOffices(
+    fun searchOffices(
         city: String,
         responseBody: (OfficeList?) -> Unit,
         failureThrowable: (Throwable) -> Unit
     ) {
-        println("Getting offices")
         retrofit.searchPostOffice(city = city).enqueue(object : retrofit2.Callback<OfficeList> {
             override fun onResponse(
                 call: Call<OfficeList>,
                 response: Response<OfficeList>
             ) {
 //                if (response.isSuccessful) {
-                println("Response")
-                println(response.isSuccessful)
-                println(response.body())
                 responseBody(response.body())
 //                }
             }
             override fun onFailure(call: Call<OfficeList>, t: Throwable) {
-                println("Failure")
                 failureThrowable(t)
             }
         })
+    }
+
+    /**
+     * Obtain additional information about each Post office.
+     *
+     * @param id The ID of each postal office. Usually obtained from the post office list returned from searching.
+     */
+    suspend fun getOffice(
+        id: Int
+    ): PostOfficeAdditional? {
+        return retrofit.getOffice(id = id).awaitResponse().body()
     }
 
     fun trackShipment(
@@ -61,16 +69,16 @@ class EgyptPostCodeRepository {
 
 
 interface RemoteAPI{
-    @GET(value = "api/autocomplete")
+    @GET(value = "autocomplete")
     fun searchPostOffice(@Query("query") city: String): Call<OfficeList>
-    @GET(value = "api/autocomplete")
-    fun getOffices(@Query("query") city: String): Call<OfficeResponse>
-    @GET(value = "api/track")
+    @GET(value = "get_office")
+    fun getOffice(@Query("id") id: Int): Call<PostOfficeAdditional>
+    @GET(value = "track")
     fun trackShipment(@Query("track_no") trackNumber: Int): Call<ShipmentResponse>
 }
 
 val retrofit = Retrofit.Builder()
-    .baseUrl("https://egpostal.com/")
+    .baseUrl("https://egpostal.com/api/")
     .addConverterFactory(GsonConverterFactory.create())
     .client(OkHttpClient.Builder().addInterceptor {
         it.proceed(it.request().newBuilder()

@@ -1,6 +1,5 @@
 package com.polendina.egyptpostalcode
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,16 +14,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.polendina.egyptpostalcode.domain.model.PostOffice
 import com.polendina.egyptpostalcode.presentation.ScreensViewModel
-import com.polendina.egyptpostalcode.ui.theme.EgyptPostalCodeTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +34,8 @@ fun HomeScreen(
     screensViewModel: ScreensViewModel = viewModel(),
     modifier: Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     Scaffold (
         topBar = {
             SearchBar(
@@ -72,45 +75,48 @@ fun HomeScreen(
             BottomBar()
         }
     ) {
-        OfficesList(
-            paddingValues = it,
-            offices = screensViewModel.officeList,
-            modifier = modifier
-        )
-    }
-}
-
-@Composable
-private fun OfficesList(
-    paddingValues: PaddingValues,
-    modifier: Modifier,
-    offices: List<PostOffice>,
-) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                paddingValues = paddingValues
-            )
-    ) {
-        items(items = offices) {office ->
-            OfficeCard(
-                office = office,
-                shareOnClick = {},
-                modifier = modifier
-                    .padding(all = 10.dp)
-            )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    paddingValues = it
+                )
+        ) {
+            items(items = screensViewModel.officeList) {office ->
+                OfficeCard(
+                    office = office,
+                    cardOnClick = {
+                        coroutineScope.launch {
+                            screensViewModel.obtainOffice(it.id.toInt())
+                            bottomSheetState.show()
+                        }
+                    },
+                    shareOnClick = {},
+                    modifier = modifier
+                        .padding(all = 10.dp)
+                )
+            }
         }
+    }
+    if (bottomSheetState.isVisible) {
+        OfficeBottomSheet(
+            sheetState = bottomSheetState,
+            onDissmissRequest = {
+                coroutineScope.launch {
+                    bottomSheetState.hide()
+                }
+            }
+        )
     }
 }
 
 @Preview
 @Composable
 fun PreviewHomeScreen() {
-    EgyptPostalCodeTheme {
+//    EgyptPostalCodeTheme {
         HomeScreen(
             activeState = true,
             modifier = Modifier
         )
-    }
+//    }
 }

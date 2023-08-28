@@ -1,14 +1,5 @@
 package com.polendina.egyptpostalcode
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Atm
-import androidx.compose.material.icons.outlined.AttachMoney
-import androidx.compose.material.icons.outlined.Mail
-import androidx.compose.material.icons.outlined.PointOfSale
-import androidx.compose.material.icons.outlined.SwapHoriz
-import androidx.compose.material.icons.outlined.SwapVert
-import androidx.compose.material.icons.outlined.Window
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.polendina.egyptpostalcode.domain.model.PostOffice
 
 val offices = listOf<PostOffice>(
@@ -23,23 +14,3 @@ val offices = listOf<PostOffice>(
     PostOffice( tel_code =  "040", visits =  "14859", id =  "1087", postal_code =  "31649", office =  "مكتب بريد الغريب مركز زفتى", address =  "الغريب/ مركز زفتى ", tel =  "5632943", link =  "https://egpostal.com/ar/مكتب-بريد-الغريب-مركز-زفتى" ),
     PostOffice( tel_code = "040", visits = "9233", id = "1237", postal_code = "31837", office = "مكتب بريد السجاعية", address = "بجوار نقطة الشرطة", tel = "2062023", link = "https://egpostal.com/ar/مكتب-بريد-السجاعية" )
 )
-
-enum class OfficeFeatures(var stringResource: Int, var available: Boolean, var icon: ImageVector) {
-    // todo: Some of these icons aren't exactly what I'm looking after
-    ATM(R.string.atm, true, Icons.Outlined.Atm),
-    POS(R.string.pos, true, Icons.Outlined.PointOfSale),
-    IFS(R.string.ifs, false, Icons.Outlined.SwapVert),
-    ONE_WINDOW(R.string.one_window, true, Icons.Outlined.Window),
-    INTERNAL_IFS(R.string.internal_ifs, false, Icons.Outlined.SwapHoriz),
-    SPEED_MAIL(R.string.speed_mail, true, Icons.Outlined.Mail),
-}
-
-val iconList = listOf(
-    Icons.Outlined.Atm,
-    Icons.Outlined.AttachMoney,
-    Icons.Outlined.AttachMoney,
-    Icons.Outlined.AttachMoney,
-    Icons.Outlined.AttachMoney,
-    Icons.Outlined.AttachMoney,
-)
-

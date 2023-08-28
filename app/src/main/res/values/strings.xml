@@ -8,8 +8,8 @@
     <string name="search_office">رقم البريد او اسم المنطقة</string>
     <string name="atm">خدمة الصراف الالي (ATM)</string>
     <string name="pos">خدمة نقاط البيع (POS)</string>
-    <string name="ifs">حوالات داخليه وارده (IFS)</string>
-    <string name="one_window">خدمات الشباك الشامل</string>
+    <string name="ifs">حوالات خارجيه وارده (IFS)</string>
     <string name="internal_ifs">حوالات داخليه وارده</string>
+    <string name="one_window">خدمات الشباك الشامل</string>
     <string name="speed_mail">خدمات البريد السريع</string>
 </resources>
