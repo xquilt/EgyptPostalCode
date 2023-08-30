@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Egypt Postal Code</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="former">Former</string>
+    <string name="placeholder">Placeholder</string>
     <string name="address">العنوان</string>
     <string name="postal_code">الرقم البريدي</string>
     <string name="phone_number">رقم التليفون</string>
@@ -12,4 +15,5 @@
     <string name="internal_ifs">حوالات داخليه وارده</string>
     <string name="one_window">خدمات الشباك الشامل</string>
     <string name="speed_mail">خدمات البريد السريع</string>
+    <string name="alexandria">Alexandria</string>
 </resources>

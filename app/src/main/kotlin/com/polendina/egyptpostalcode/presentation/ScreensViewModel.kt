@@ -1,5 +1,6 @@
 package com.polendina.egyptpostalcode.presentation
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Atm
 import androidx.compose.material.icons.outlined.Mail
@@ -10,7 +11,9 @@ import androidx.compose.material.icons.outlined.Window
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import com.polendina.egyptpostalcode.R
@@ -28,6 +31,7 @@ class ScreensViewModel: ViewModel() {
     private val _postOffice: SnapshotStateMap<Int?, PostOfficeAdditional?> = mutableStateMapOf()
 
     fun updateQuery(value: String) {
+        // TODO: Do some form of input validation for the user input
         _query.value = value
     }
 
@@ -48,16 +52,17 @@ class ScreensViewModel: ViewModel() {
         }
     }
 
+    private val _officeFeatures: SnapshotStateList<PostOfficeAdditional> = mutableStateListOf()
     private fun setOfficeFeatures(postOfficeAdditional: PostOfficeAdditional?) {
         // TODO: There gotta be a better approach than this
         postOfficeAdditional?.data?.run {
-            OfficeFeatures.ATM.available = atm.toBoolean()
-            OfficeFeatures.POS.available = pos.toBoolean()
-            OfficeFeatures.IFS.available = ifs.toBoolean()
-            OfficeFeatures.ONE_WINDOW.available = one_window.toBoolean()
-            OfficeFeatures.INTERNAL_IFS.available = internal_ifs.toBoolean()
-            OfficeFeatures.SPEED_MAIL.available = speed_mail.toBoolean()
+            val services = listOf(atm, pos, ifs, one_window, internal_ifs, speed_mail)
+            for ((feature, availability) in OfficeFeatures.entries.zip(services)) {
+                feature.setAvailability(availability.toBoolean())
+            }
         }
+//        _officeFeatures.clear()
+//        _officeFeatures.addAll(OfficeFeatures.entries.toMutableStateList())
     }
     suspend fun obtainOffice(
         id: Int
@@ -74,24 +79,26 @@ class ScreensViewModel: ViewModel() {
 
 }
 
-fun String.toBoolean(): Boolean {
-    return when (this.toInt()) {
-        0 -> false
-        1 -> true
-        else -> false
-    }
+fun String.toBoolean() = when (this.toInt()) {
+    0 -> false
+    1 -> true
+    else -> false
 }
 
 enum class OfficeFeatures(
-    var stringResource: Int,
+    @StringRes val stringResource: Int,
     var available: Boolean,
-    var icon: ImageVector
+    val icon: ImageVector
 ) {
     // TODO: Some of these icons aren't exactly what I'm looking after
-    ATM(R.string.atm, true, Icons.Outlined.Atm),
+    ATM(R.string.atm, false, Icons.Outlined.Atm),
     POS(R.string.pos, false, Icons.Outlined.PointOfSale),
-    IFS(R.string.ifs, true, Icons.Outlined.SwapVert),
-    ONE_WINDOW(R.string.one_window, true, Icons.Outlined.Window),
-    INTERNAL_IFS(R.string.internal_ifs, true, Icons.Outlined.SwapHoriz),
-    SPEED_MAIL(R.string.speed_mail, true, Icons.Outlined.Mail),
+    IFS(R.string.ifs, false, Icons.Outlined.SwapVert),
+    ONE_WINDOW(R.string.one_window, false, Icons.Outlined.Window),
+    INTERNAL_IFS(R.string.internal_ifs, false, Icons.Outlined.SwapHoriz),
+    SPEED_MAIL(R.string.speed_mail, true, Icons.Outlined.Mail);
+
+    fun setAvailability(available: Boolean) {
+        this.available = available
+    }
 }
