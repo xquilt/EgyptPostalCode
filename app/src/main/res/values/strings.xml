@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Egypt Postal Code</string>
-    <string name="suggestions">Suggestions</string>
-    <string name="former">Former</string>
+    <string name="provinces">Provinces</string>
+    <string name="favorites">Favorites</string>
     <string name="placeholder">Placeholder</string>
     <string name="address">العنوان</string>
     <string name="postal_code">الرقم البريدي</string>

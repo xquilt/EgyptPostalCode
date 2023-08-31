@@ -64,6 +64,7 @@ class ScreensViewModel: ViewModel() {
 //        _officeFeatures.clear()
 //        _officeFeatures.addAll(OfficeFeatures.entries.toMutableStateList())
     }
+
     suspend fun obtainOffice(
         id: Int
     ) {

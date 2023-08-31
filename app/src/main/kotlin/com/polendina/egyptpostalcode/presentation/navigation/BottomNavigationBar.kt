@@ -1,47 +1,50 @@
 package com.polendina.egyptpostalcode
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocalShipping
-import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material3.BottomAppBar
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.polendina.egyptpostalcode.presentation.navigation.Screen
 
 @Composable
 fun BottomNavigationBar(
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    BottomAppBar (
+    BottomNavigation (
+        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
         modifier = modifier
+            .height(90.dp)
+            .padding(10.dp)
             .clip(RoundedCornerShape(10.dp))
     ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
         Row (
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
@@ -49,28 +52,38 @@ fun BottomNavigationBar(
                 .fillMaxWidth()
         ) {
             NavItems.entries.forEach {
-                IconButton(
-                    onClick = it.onClick
-                ) {
-                    if (it.selected) {
-                        Icon(
-                            imageVector = it.imageVector,
-                            contentDescription = it.contentDescription,
-                            tint = MaterialTheme.colorScheme.onTertiary,
-                            modifier = Modifier
-                                .notificationDot()
-                        )
-                    } else {
+                BottomNavigationItem(
+                    selected = currentRoute == it.route,
+                    icon = {
                         Icon(
                             imageVector = it.imageVector,
                             contentDescription = it.contentDescription,
                         )
-                    }
+                    },
+                    onClick = {
+                        navController.navigate(it.route) {
+
+                        }
+                    },
+                )
+//                IconButton(
+//                    onClick = it.onClick
+//                ) {
+//                    if (it.selected) {
+//                        Icon(
+//                            imageVector = it.imageVector,
+//                            contentDescription = it.contentDescription,
+//                            tint = MaterialTheme.colorScheme.onTertiary,
+//                            modifier = Modifier
+//                                .notificationDot()
+//                        )
+//                    } else {
+//                    }
                 }
             }
         }
     }
-}
+//}
 
 private fun Modifier.notificationDot(): Modifier =
     composed {
@@ -87,14 +100,14 @@ private fun Modifier.notificationDot(): Modifier =
 enum class NavItems(
     val imageVector: ImageVector,
     val contentDescription: String?,
-    val selected: Boolean,
-    val onClick: () -> Unit
+    val route: String
 ) {
     // TODO: The logic decision of determining the selected icon is yet to be implemented
-    HOME(Icons.Outlined.Home, null, false, {}),
-    SHIPMENT(Icons.Outlined.LocalShipping, null, true, {}),
-    LOCATION(Icons.Outlined.LocationOn, null, false, {}),
-    FAVORITE(Icons.Outlined.FavoriteBorder, null, false, {})
+    HOME(Icons.Outlined.Home, null, Screen.Home.route),
+    SEARCH(Icons.Outlined.Search, null, Screen.Search.route),
+    SHIPMENT(Icons.Outlined.LocalShipping, null, Screen.Shipment.route),
+//    LOCATION(Icons.Outlined.LocationOn, null, Screen.),
+//    FAVORITE(Icons.Outlined.FavoriteBorder, null, false)
 }
 
 @Preview(showBackground = true)
@@ -106,8 +119,7 @@ private fun PreviewBottomBar() {
             .fillMaxSize()
     ) {
         BottomNavigationBar(
-            modifier = Modifier
-                .padding(10.dp)
+            navController = rememberNavController(),
         )
     }
 }

@@ -28,10 +28,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun SearchScreen(
     activeState: Boolean,
     screensViewModel: ScreensViewModel = viewModel(),
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
@@ -69,9 +69,6 @@ fun HomeScreen(
             ) {
 
             }
-        },
-        bottomBar = {
-            BottomNavigationBar()
         }
     ) {
         LazyColumn(
@@ -113,7 +110,7 @@ fun HomeScreen(
 @Composable
 fun PreviewHomeScreen() {
 //    EgyptPostalCodeTheme {
-        HomeScreen(
+        SearchScreen(
             activeState = true,
             modifier = Modifier
         )
