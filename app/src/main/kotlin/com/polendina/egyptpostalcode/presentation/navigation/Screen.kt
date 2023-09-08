@@ -16,14 +16,13 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun NavigationSetup(
+fun Navigation(
     navController: NavHostController,
     modifier: Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route,
-        modifier = modifier
+        startDestination = Screen.Home.route
     ) {
         composable(Screen.Home.route) {
             HomeScreen()
@@ -31,5 +30,7 @@ fun NavigationSetup(
         composable(Screen.Search.route) {
             SearchScreen(activeState = true)
         }
+        composable(Screen.Shipment.route) { }
+        composable(Screen.Provinces.route) { }
     }
 }

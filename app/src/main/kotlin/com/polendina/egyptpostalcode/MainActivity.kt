@@ -10,13 +10,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.polendina.egyptpostalcode.presentation.navigation.NavigationSetup
+import com.polendina.egyptpostalcode.presentation.navigation.Navigation
+import com.polendina.egyptpostalcode.ui.theme.EgyptPostalCodeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            EgyptPostalCodeTheme {
+            EgyptPostalCodeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -26,15 +27,16 @@ class MainActivity : ComponentActivity() {
                     Scaffold (
                         bottomBar = {
                             BottomNavigationBar(navController = navController)
-                        }
+                        },
+                        containerColor = MaterialTheme.colorScheme.onPrimary
                     ) {
-                        NavigationSetup(
+                        Navigation(
                             navController = navController,
                             modifier = Modifier.padding(it)
                         )
                     }
                 }
-//            }
+            }
         }
     }
 }

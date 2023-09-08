@@ -14,15 +14,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocalShipping
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Icon
+import androidx.compose.material.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,57 +45,32 @@ fun BottomNavigationBar(
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
-        Row (
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            NavItems.entries.forEach {
-                BottomNavigationItem(
-                    selected = currentRoute == it.route,
-                    icon = {
-                        Icon(
-                            imageVector = it.imageVector,
-                            contentDescription = it.contentDescription,
-                        )
-                    },
-                    onClick = {
-                        navController.navigate(it.route) {
-
+        NavItems.entries.forEach {
+            BottomNavigationItem(
+                selected = currentRoute == it.route,
+                selectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                unselectedContentColor = MaterialTheme.colorScheme.onBackground,
+                icon = {
+                    Icon(
+                        imageVector = it.imageVector,
+                        contentDescription = it.contentDescription,
+                    )
+                },
+                onClick = {
+                    navController.navigate(it.route) {
+                        navController.graph.startDestinationRoute?.let {route ->
+                            popUpTo(route) {
+                                saveState = true
+                            }
                         }
-                    },
-                )
-//                IconButton(
-//                    onClick = it.onClick
-//                ) {
-//                    if (it.selected) {
-//                        Icon(
-//                            imageVector = it.imageVector,
-//                            contentDescription = it.contentDescription,
-//                            tint = MaterialTheme.colorScheme.onTertiary,
-//                            modifier = Modifier
-//                                .notificationDot()
-//                        )
-//                    } else {
-//                    }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
-            }
-        }
-    }
-//}
-
-private fun Modifier.notificationDot(): Modifier =
-    composed {
-        val tertiary = MaterialTheme.colorScheme.tertiary
-        drawWithContent {
-            drawCircle(
-                color = tertiary,
-                radius = 20.dp.toPx(),
             )
-            drawContent()
         }
     }
+}
 
 enum class NavItems(
     val imageVector: ImageVector,
