@@ -16,4 +16,14 @@
     <string name="one_window">خدمات الشباك الشامل</string>
     <string name="speed_mail">خدمات البريد السريع</string>
     <string name="alexandria">Alexandria</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="message">Message</string>
+    <string name="contact">Contact</string>
+    <string name="our">Our</string>
+    <string name="dev">Developers!</string>
+    <string name="submit">Submit</string>
+    <string name="know_more">Want to Know more?</string>
+    <string name="website">Visit our Website</string>
+    <string name="privacy_agreement">Do you agree to data sharing privacy agreement?</string>
 </resources>

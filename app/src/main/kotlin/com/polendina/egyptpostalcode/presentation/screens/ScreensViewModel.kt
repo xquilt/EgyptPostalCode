@@ -19,6 +19,7 @@ import com.polendina.egyptpostalcode.R
 import com.polendina.egyptpostalcode.data.repository.EgyptPostCodeRepository
 import com.polendina.egyptpostalcode.domain.model.PostOffice
 import com.polendina.egyptpostalcode.domain.model.PostOfficeAdditional
+import com.polendina.egyptpostalcode.offices
 
 class ScreensViewModel: ViewModel() {
 
