@@ -1,11 +1,13 @@
 package com.polendina.egyptpostalcode
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.polendina.egyptpostalcode.presentation.ScreensViewModel
 import kotlinx.coroutines.launch
 
@@ -66,9 +69,7 @@ fun SearchScreen(
                     .height(90.dp)
                     .padding(10.dp)
                     .clip(RoundedCornerShape(10.dp))
-            ) {
-
-            }
+            ) { }
         }
     ) {
         LazyColumn(
@@ -88,13 +89,13 @@ fun SearchScreen(
                         }
                     },
                     shareOnClick = {},
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(all = 10.dp)
                 )
             }
         }
     }
-    if (bottomSheetState.isVisible) {
+    AnimatedVisibility(visible = bottomSheetState.isVisible) {
         OfficeBottomSheet(
             sheetState = bottomSheetState,
             onDissmissRequest = {
@@ -109,10 +110,15 @@ fun SearchScreen(
 @Preview
 @Composable
 fun PreviewHomeScreen() {
-//    EgyptPostalCodeTheme {
+    Scaffold (
+        bottomBar = {
+            BottomNavigationBar(navController = rememberNavController())
+        }
+    ) {
         SearchScreen(
             activeState = true,
             modifier = Modifier
+                .padding(it)
         )
-//    }
+    }
 }

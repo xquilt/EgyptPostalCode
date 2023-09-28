@@ -2,7 +2,7 @@ package com.polendina.egyptpostalcode
 
 import com.polendina.egyptpostalcode.domain.model.PostOffice
 
-val offices = listOf<PostOffice>(
+val offices = listOf(
     PostOffice( tel_code =  "047", visits =  "10029", id =  "1585", postal_code =  "33757", office =  "مكتب بريد مجاز الحامول", address =  "مجاز الحامول الحامول برارى", tel =  "3825171", link =  "https://egpostal.com/ar/مكتب-بريد-مجاز-الحامول" ),
     PostOffice( tel_code =  "048", visits =  "11334", id =  "1325", postal_code =  "32657", office =  "مكتب بريد شنتنا الحجر", address =  "ش داير الناحية شنتنا الحجر  بركة السبع", tel =  "2997011", link =  "https://egpostal.com/ar/مكتب-بريد-شنتنا-الحجر" ),
     PostOffice( tel_code =  "013", visits =  "14000", id =  "532", postal_code =  "13637", office =  "مكتب بريد عزبة زكى", address =  "قرية عزبة زكى بنها  ", tel =  "3233801", link =  "https://egpostal.com/ar/مكتب-بريد-عزبة-زكى" ),
