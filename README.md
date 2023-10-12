@@ -11,10 +11,8 @@ A new FOSS variant of the [Egypt Postal Code - Egypt Post](https://play.google.c
 
 ## Showcase
 <span>
-    <img src="./media/HomeScreen.png" width="300" height="600"> &nbsp;
-    <img src="./media/SearchScreen.png" width="300" height="600"> &nbsp;
-    <img src="./media/BottomSheet.png" width="300" height="600"> &nbsp;
-    <img src="./media/Contact.png" width="300" height="600"> &nbsp;
+    <img src="./media/homeSearch.png"> &nbsp;
+    <img src="./media/contactHomeSearch.png"> &nbsp;
 </span>
 
 ## Installation
