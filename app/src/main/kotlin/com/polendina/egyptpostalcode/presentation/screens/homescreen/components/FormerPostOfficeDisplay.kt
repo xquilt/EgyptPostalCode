@@ -29,30 +29,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.polendina.egyptpostalcode.domain.model.PostOffice
-import java.util.function.IntToDoubleFunction
-
-/**
- * Vertical column displaying formerly loaded post offices.
- *
- * @param modifier Modifier to be applied to the first nested parent composable.
- * @param items List of the previously loaded post offices.
- * @param content A composable responsible for display the post office metadata.
- */
-@Composable
-fun FormerQueries(
-    modifier: Modifier = Modifier,
-    items: List<PostOffice>, // TODO: Load post offices from a Room database.
-    content: @Composable LazyListScope.(PostOffice) -> Unit
-) {
-    LazyColumn (
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        val lazyListScope = this // FIXME: Janky implementation
-        items(items) {
-            content(lazyListScope, it)
-        }
-    }
-}
 
 /**
  * Display previously loaded post offices that were saved at local database.

@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.polendina.egyptpostalcode.SearchScreen
-import com.polendina.egyptpostalcode.presentation.homescreen.components.HomeScreen
+import com.polendina.egyptpostalcode.presentation.screens.homescreen.HomeScreen
 import com.polendina.egyptpostalcode.presentation.screens.contact.Contact
 
 @Composable
