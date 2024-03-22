@@ -1,5 +1,7 @@
 package com.polendina.egyptpostalcode
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -47,6 +50,7 @@ fun OfficeCard(
     office: PostOffice,
     shareOnClick: () -> Unit,
     cardOnClick: (PostOffice) -> Unit,
+    callOnClick: (phoneNumber: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -101,6 +105,10 @@ fun OfficeCard(
             InfoRow(
                 category = stringResource(id = R.string.phone_number),
                 value = office.tel,
+                clickCallBack = {
+                    // TODO: There should be a way to account of parsing exceptions
+                    callOnClick(office.tel.toLong())
+                },
                 imageVector = Icons.Filled.Call
             )
         }
@@ -112,7 +120,8 @@ private fun InfoRow(
     category: String,
     value: String?,
     imageVector: ImageVector,
-    modifier: Modifier = Modifier
+    clickCallBack: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.End,
@@ -139,13 +148,15 @@ private fun InfoRow(
                 modifier = Modifier
                     .padding(start = 10.dp)
             )
-            Icon(
-                imageVector = imageVector,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onErrorContainer,
-                modifier = Modifier
-                    .padding(start = 10.dp)
-            )
+            IconButton(onClick = clickCallBack) {
+                Icon(
+                    imageVector = imageVector,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                )
+            }
         }
         value?.let {
             Text(
@@ -166,12 +177,20 @@ private fun InfoRow(
 @Preview(showBackground = true)
 @Composable
 private fun OfficeCardPreview() {
+    val localCurrentContext = LocalContext.current
     offices.first().let {
         OfficeCard(
             office = it,
             cardOnClick = {},
             shareOnClick = {
                 Log.d("URL", it.link)
+            },
+            callOnClick = { phoneNumber ->
+                localCurrentContext.startActivity(
+                    Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.parse("tel:${phoneNumber}")
+                ))
             },
             modifier = Modifier
                 .padding(10.dp)
@@ -194,6 +213,7 @@ private fun OfficeCardColumnPreview() {
                     shareOnClick = {
                         Log.d("URL", it.link)
                     },
+                    callOnClick = {},
                     modifier = Modifier
                         .padding(10.dp)
                 )

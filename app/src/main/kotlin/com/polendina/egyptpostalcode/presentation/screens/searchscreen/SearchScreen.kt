@@ -1,5 +1,7 @@
 package com.polendina.egyptpostalcode
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,6 +75,7 @@ fun SearchScreen(
             ) { }
         }
     ) {
+        val localCurrentContext = LocalContext.current
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,6 +93,12 @@ fun SearchScreen(
                         }
                     },
                     shareOnClick = {},
+                    callOnClick = { phoneNumber ->
+                        localCurrentContext.startActivity(Intent(
+                            Intent.ACTION_DIAL,
+                            Uri.parse("tel:${phoneNumber}")
+                        ))
+                    },
                     modifier = Modifier
                         .padding(all = 10.dp)
                 )
