@@ -19,10 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.polendina.egyptpostalcode.BottomNavigationBar
+import com.polendina.egyptpostalcode.presentation.navigation.BottomNavigationBar
 import com.polendina.egyptpostalcode.R
 import com.polendina.egyptpostalcode.offices
+import com.polendina.egyptpostalcode.presentation.navigation.Screen
 import com.polendina.egyptpostalcode.presentation.screens.homescreen.components.FormerPostOfficeDisplay
 import com.polendina.egyptpostalcode.presentation.screens.homescreen.components.FormerQueries
 import com.polendina.egyptpostalcode.presentation.screens.homescreen.components.SectionHeader
@@ -30,7 +32,8 @@ import com.polendina.egyptpostalcode.presentation.screens.homescreen.components.
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     Scaffold (
         topBar = {
@@ -46,7 +49,9 @@ fun HomeScreen(
                     contentDescription = null
                 )
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        navController.navigate(Screen.Contact.route)
+                    }
                 ) {
                    Icon(
                        imageVector = Icons.Default.AlignHorizontalRight,
@@ -56,6 +61,7 @@ fun HomeScreen(
             }
         }
     ) {
+        // TODO: This should be refactored to a lazyColumn, but wait those items should be wrapped in item, and the scrollable section be inside of items! : )
         Column (
             modifier = Modifier
                 .fillMaxSize()
@@ -114,6 +120,9 @@ fun HomeScreenPreview() {
             BottomNavigationBar(navController = rememberNavController())
         }
     ) {
-        HomeScreen(modifier = Modifier.padding(it))
+        HomeScreen(
+            modifier = Modifier.padding(it),
+            navController = rememberNavController()
+        )
     }
 }

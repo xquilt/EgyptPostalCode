@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.polendina.egyptpostalcode.SearchScreen
 import com.polendina.egyptpostalcode.presentation.homescreen.components.HomeScreen
+import com.polendina.egyptpostalcode.presentation.screens.contact.Contact
 
 @Composable
 fun Navigation(
@@ -18,12 +19,15 @@ fun Navigation(
         startDestination = Screen.Home.route
     ) {
         composable(Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
         composable(Screen.Search.route) {
             SearchScreen(activeState = true)
         }
         composable(Screen.Shipment.route) { }
         composable(Screen.Provinces.route) { }
+        composable(Screen.Contact.route) {
+            Contact(navController = navController)
+        }
     }
 }
